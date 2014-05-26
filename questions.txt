@@ -21,7 +21,8 @@ Without knowing anything else I’ll probably use JSON for its readability and e
 I’m not very familiar with web scraping but my first approach will be researching the site in particular and then create a function that scraps data adapted to its structure, I suppose starting by retrieving data from its HTML main fields.
 
 8. Explain or give an example of the use of yield. What are their advantages?
-In Java "yield" indicates that a thread won't compete for CPU time. Depending on the platform, the Java version and the current status of other threads the yielded thread may or may not receive CPU time in the next CPU period.
+In Java, yield indicates that a thread won't compete for CPU time. Depending on the platform, the Java version and the current status of other threads the yielded thread may or may not receive CPU time in the next CPU period.
+In Python, yield is a reserved word that is used as "return" in generators. Yield marks the end of the execution of a generator.
 
 9. Describe the architecture you would use to create a system where as much as possible of the code is decoupled from the framework.
 To decouple a system from a framework we have to create a sort of interface/middleware for each framework. Our main logic will then call a generic function which will select the appropriate framework-specific function(s), leaving the main code unchanged. This way not only we separate the framework from part of the code but we also can add new frameworks easily.
