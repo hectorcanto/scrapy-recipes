@@ -1,0 +1,3 @@
+1) Install Scrapy and do tutorial
+2) Install pyMongo
+3) Start git repository

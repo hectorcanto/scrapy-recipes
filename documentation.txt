@@ -1,0 +1,11 @@
+PyMongo 2.7.1 Documentation¶
+http://api.mongodb.org/python/current/index.html#
+
+Install MongoDB on Ubuntu
+http://docs.mongodb.org/manual/tutorial/install-mongodb-on-ubuntu/
+
+Scrapy Tutorial
+http://doc.scrapy.org/en/latest/intro/tutorial.html
+
+XPath Tutorial
+http://www.w3schools.com/xpath/
