@@ -15,9 +15,9 @@ class RecipeItem(Item):
     category = Field() # Entrantes ...
     link = Field() # link to the recipe
     photo = Field() # Maybe link to the image first
-    votes = Filed() # Number of votes
+    votes = Field() # Number of votes
     qualification = Field() # Vote Average
     description = Field()
     elaboration = Field()
     ingredients = Field() # PENDING array
-    commentaries = Field() # PENDING array
+    commentaries = Field() # PENDING array, if any
