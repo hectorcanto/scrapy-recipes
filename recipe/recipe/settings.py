@@ -11,5 +11,9 @@ BOT_NAME = 'recipe'
 SPIDER_MODULES = ['recipe.spiders']
 NEWSPIDER_MODULE = 'recipe.spiders'
 
+ITEM_PIPELINES = {
+    'recipe.pipelines.RecipePipeline': 100,
+}
+
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'recipe (+http://www.yourdomain.com)'

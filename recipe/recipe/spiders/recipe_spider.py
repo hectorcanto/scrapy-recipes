@@ -1,9 +1,15 @@
+# -*- coding:utf-8 -*-
+
+import re
+from bs4 import BeautifulSoup
 from scrapy.spider import Spider
-from scrapy.selector import Selector
-from recipe.items import RecipeItem, PageItem
+from scrapy.selector import Selector, HtmlXPathSelector
 from scrapy.contrib.spiders import SitemapSpider, CrawlSpider
 from scrapy.http import Request
-import re
+from recipe.items import RecipeItem, PageItem
+
+
+
 # From mapadelsition: level_1 tipo level_2 receta
 # mongo structure idea: entrante/receta.foto/elaboracion/ingredientes
 
@@ -31,8 +37,7 @@ class FirstSpider(Spider):
         print "Scraped",len(items)
         #for item in items:
         #    print item['title'], item.['link']
-        return items
-
+        return items       
 
 class PageSpider(Spider): # PENDING transform into a Unit test
     name = "one"
@@ -41,26 +46,21 @@ class PageSpider(Spider): # PENDING transform into a Unit test
 
     def parse(self, response):
         sel = Selector(response)
-        title = sel.xpath('//h1[@class="contentheading"]/a/text()').extract() # PENDING strip
+        hxs = HtmlXPathSelector(response)
         item = RecipeItem()
-        item["title"] = sel.xpath('//h1[@class="contentheading"]/a/text()').extract() # PENDING strip
+        item["title"] = sel.xpath('//h1[@class="contentheading"]/a/text()').extract() # Cleansing is made on the pipeline
+        item['category'] = sel.xpath('//span[@class="article-section"]/a/text()').extract()
         item["link"] = response.url
-        item["photo"] = sel.xpath('//div[@class="article-content"]/img/@src').extract() # PENDING extract image instead of relative link
+        item["date"] = sel.xpath('//span[@class="createdate"]/text()').extract()
+        item["photo"] = "http://"+self.allowed_domains[0]+sel.xpath('//div[@class="article-content"]/img/@src').extract()[0] 
         # In test (and maybe code) check if links ends up with jpg or equivalent
-        
-        item["description"] = sel.xpath('//div[@class="article-content"]').extract() # PENDING sanitize, order and divide into pieces
-        #item["description"] = sel.xpath('//div[@class="article-content"]/p/text()').extract() # PENDING divide into pieces
-        return item
-        
-        #item["ingredients"] = # PENDING stora as an array
-        # item["elaboration"] =
-        # item["category"] = sel.xpath('//span[@class="article-section"]/a/text()).extract()
-        # PENDING fields like commentaries, votes, category ... also date        
-
-        # <span class="createdate">Lunes, 21 de Abril de 2014 00:00</span>
-	# <span class="article-section"><a href="/recetas/entrantes">Entrantes</span>
-        # div class="article-content">     # <strong>Ingredientes:</strong></p> list
-        # <p><strong>Elaboracion:</strong></p> # <p><strong>Consejos:</strong></p>
+        item["description"] = sel.xpath('//div[@class="article-content"]/p[1]/text()').extract()
+        item["ingredients"] = sel.xpath('//div[@class="article-content"]/ul/li//text()').extract() # Unordered
+        item["elaboration"] = sel.xpath('//div[@class="article-content"]/ol/li/text()').extract() # Ordered
+        item['tips'] = ''.join(sel.xpath('//div[@class="article-content"]/p[strong/text()="Consejos:"]/following-sibling::p[1]//text()').extract()).strip()
+        # PENDING IMPORTANT additional texts after Consejos
+        # PENDING Facebook commentaries, votes
+        return item  
 
 
 class RecipeSpider(CrawlSpider):
@@ -78,6 +78,7 @@ class RecipeSpider(CrawlSpider):
     def parse_recipe(self, response):
         sel = Selector(response)
         title = sel.xpath('//h1[@class="contentheading"]/a/text()').extract() # PENDING strip
+
 
 class MapSpider(SitemapSpider):
     name = "sitemap"
