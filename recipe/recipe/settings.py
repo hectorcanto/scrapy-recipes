@@ -18,7 +18,7 @@ ITEM_PIPELINES = {
 }
 
 IMAGES_STORE = '/home/data/Code/myTaste/images' # Change to test
-
+LOG_LEVEL = "INFO"
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'recipe (+http://www.yourdomain.com)'
