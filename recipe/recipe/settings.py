@@ -13,7 +13,12 @@ NEWSPIDER_MODULE = 'recipe.spiders'
 
 ITEM_PIPELINES = {
     'recipe.pipelines.RecipePipeline': 100,
+    'scrapy.contrib.pipeline.images.ImagesPipeline': 200,
+    'recipe.pipelines.MongoPipeline': 300,    
 }
+
+IMAGES_STORE = '/home/data/Code/myTaste/images' # Change to test
+
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'recipe (+http://www.yourdomain.com)'

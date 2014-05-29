@@ -9,7 +9,9 @@ class RecipeItem(Item):
     date = Field() # text, later datetime
     category = Field() # Entrantes ...
     link = Field() # link to the recipe
-    photo = Field() # link or photo
+    image_urls = Field()
+    images = Field()
+    photo = Field() # For the image binary before storing
     description = Field()
     elaboration = Field()
     ingredients = Field()
