@@ -1,0 +1,8 @@
+Work to be done on the code:
+
+- Check and drop duplicates
+- Avoid downloading images more than once
+- Set unique keys
+- Be more efficient in general
+- Research Image transformation to store in Mongo
+- 

@@ -9,3 +9,6 @@ http://doc.scrapy.org/en/latest/intro/tutorial.html
 
 XPath Tutorial
 http://www.w3schools.com/xpath/
+
+Python 2.7 Regex Howto
+https://docs.python.org/2/howto/regex.html
