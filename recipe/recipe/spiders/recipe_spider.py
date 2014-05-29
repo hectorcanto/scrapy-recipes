@@ -1,18 +1,12 @@
 # -*- coding:utf-8 -*-
 
 import re
-from bs4 import BeautifulSoup
-from scrapy.spider import Spider
-from scrapy.selector import Selector, HtmlXPathSelector
-from scrapy.contrib.spiders import SitemapSpider, CrawlSpider
+from scrapy import log
 from scrapy.http import Request
+from scrapy.spider import Spider
+from scrapy.selector import Selector
+from scrapy.contrib.spiders import  CrawlSpider
 from recipe.items import RecipeItem, PageItem
-
-
-
-# From mapadelsition: level_1 tipo level_2 receta
-# mongo structure idea: entrante/receta.foto/elaboracion/ingredientes
-
 
 class BaseSpider(Spider):
     allowed_domains = ["www.1080recetas.com"]
@@ -24,7 +18,19 @@ class BaseSpider(Spider):
         item['category'] = sel.xpath('//span[@class="article-section"]/a/text()').extract()
         item["link"] = response.url
         item["date"] = sel.xpath('//span[@class="createdate"]/text()').extract()
-        item["image_urls"] = [ "http://"+self.allowed_domains[0]+sel.xpath('//div[@class="article-content"]/img/@src').extract()[0] ]
+        images = sel.xpath('//div[@class="article-content"]//img/@src').extract() # // before image to extract link in and outside <p>
+        item["image_urls"] = []
+        log.msg("Extracted image links {0}".format(images)) # Eliminate or mark as debug
+        for path in images:
+            if "stories" in path:
+                if "http" in path:
+                    item["image_urls"].append(path)
+                else:
+                    item["image_urls"].append("http://"+self.allowed_domains[0]+path) # PENDING Transform properly
+                    log.msg("Number of paths:{1} -- Resulting path {0}".format( item["image_urls"], len(item["image_urls"])))
+                
+        #log.msg('Image link extracted from "{0}" as {1}'.format(str(item["title"][0].strip()), item["image_urls"]))
+        
         # In test (and maybe code) check if links ends up with jpg or equivalent
         item["description"] = sel.xpath('//div[@class="article-content"]/p[1]/text()').extract()
         item["ingredients"] = sel.xpath('//div[@class="article-content"]/ul/li//text()').extract() # Unordered

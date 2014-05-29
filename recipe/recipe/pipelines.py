@@ -5,7 +5,9 @@ from datetime import datetime
 from pymongo import MongoClient
 from bson.binary import Binary as BsonBinary
 
+from scrapy import log
 from recipe.settings import IMAGES_STORE
+
 
 
 class RecipePipeline(object):
@@ -21,19 +23,21 @@ class RecipePipeline(object):
 
     def transform_date(self, date):
         locale.setlocale(locale.LC_ALL, "es_ES.UTF-8")
-        dt = datetime.strptime(date, "%A, %d de %B de %Y %H:%M")
+        dt = datetime.strptime(date.encode('utf8'), "%A, %d de %B de %Y %H:%M") # string encoding to include names with accents
         return dt
-
 
 class BinaryPipeline(object):
 
-  def process_item(self, item, spider):
-      image_path = path.join(IMAGES_STORE, item['images'][0]['path'])
-      jpg = Image.open(image_path)
-      jpg.seek(0)
-      binary = BsonBinario(jpg.tobytes()) 
-      #item["photo"] = binary
-      return item
+    def process_item(self, item, spider):
+        try:
+            image_path = path.join(IMAGES_STORE, item['images'][0]['path'])
+            jpg = Image.open(image_path)
+            jpg.seek(0)
+            binary = BsonBinario(jpg.tobytes()) 
+            #item["photo"] = binary
+            return item
+        except:
+            return item
 
 class MongoPipeline(object):
 
@@ -54,5 +58,7 @@ class MongoPipeline(object):
         for key in ['images', 'image_urls', 'photo']:
             mapped.pop(key)
         mapped['timestamping'] = datetime.utcnow()    
-        self.collection.insert(mapped, continue_on_erro=True)
+        identifier = self.collection.insert(mapped, continue_on_erro=True)
+        log.msg("Element inserted with ID {0}".format(identifier))
+
         return item
