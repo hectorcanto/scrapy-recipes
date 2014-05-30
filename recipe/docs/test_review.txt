@@ -1,0 +1,9 @@
+What do you think about the test?
+
+The test seems appropriate for the level demanded on the job position however, for a person unfamiliar with Scrapy the result might not show the real potential of the candidate, since most of the time is dedicated on familiarizing with the framework and debugging trivial errors.
+
+In my opinion, providing an code skeleton or a sample of a real script or tiny application might work better to uncover the skills of the candidate, asking him to look for errors, improve it or develop new features.
+
+Also, I have the sensation that I spend too much time on a test without having a phone interview first and some assurance that I can be hired, some yet unknown aspects of the hiring process or the job conditions could make me withdraw my application.
+
+Anyway, I enjoyed the experience working with Scrapy and the challenge of solving a programming problem in a restricted schedule.

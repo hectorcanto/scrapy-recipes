@@ -1,5 +1,5 @@
 1. What is a static function?
-A static function is a function that belongs to a class but it doesn’t have (or need) access to the class (self/this neither) or the class variables and methods. Such a function can be called directly through the class without an instance of the given class. Static functions are rather infrequent in some languages although they are interesting in terms of inheritance, overriding prevention and efficiency.
+A static function is a function that belongs to a class but it doesn’t have (or need) access to the class (neither to self/this) or the class variables and methods. Such a function can be called directly through the class without an instance. Static functions are rather infrequent in some languages although they are interesting in terms of inheritance, overriding prevention and efficiency.
 
 2. Explain the difference between == and ===.
 In PHP and Javascript === is a “strict” comparison operator demanding that both sides of the expression are not only equal but of the same type, while == only demands value equality.
@@ -22,13 +22,13 @@ I’m not very familiar with web scraping but my first approach will be research
 
 8. Explain or give an example of the use of yield. What are their advantages?
 In Java, yield indicates that a thread won't compete for CPU time. Depending on the platform, the Java version and the current status of other threads the yielded thread may or may not receive CPU time in the next CPU period.
-In Python, yield is a reserved word that is used as "return" in generators. Yield marks the end of the execution of a generator.
+In Python, yield is a reserved word that is used as "return" in generators. Yield marks the end of a loop in the execution of a generator.
 
 9. Describe the architecture you would use to create a system where as much as possible of the code is decoupled from the framework.
 To decouple a system from a framework we have to create a sort of interface/middleware for each framework. Our main logic will then call a generic function which will select the appropriate framework-specific function(s), leaving the main code unchanged. This way not only we separate the framework from part of the code but we also can add new frameworks easily.
 
 10. What is a nosql database?
-A NoSQL database is a type of database that does not match the table model of SQL and relational databases, for example MongoDB. “No” stands for “not only” so NoSQL databases may reproduce the SQL model as well. NoSQL databases provide coverage to data structures usually more complex than simple tables, supporting multiple structures at once (documents, changes on the structure, complex relations between elements (graphs) etc. The use of NoSQL databases might be recommended because of performance and scalability issues.
+A NoSQL database is a type of database that does not match the table model of SQL and relational databases, for example MongoDB. “No” stands for “not only” so NoSQL databases may reproduce the SQL model as well. NoSQL databases provide coverage to data structures usually more complex than simple tables, supporting multiple structures at once (documents, changes on the structure, complex relations between elements such as graphs etc. The use of NoSQL databases might be recommended because of performance and scalability issues.
 
 11. What type of code constructs makes unit testing difficult or impossible?
 Code (modules, functions …) with high dependency on other structures is harder to unit-test, in other words, when we need to build a complex contest to test it. Two examples: we need to create a mock database to run the test; we have to initialize the full application in order to test a single structure.
@@ -38,8 +38,7 @@ Dependency injection is a programming technique that makes the code less interde
 Also, testing is made easier on dependant objects, by providing them with mock objects passed as parameters (instead of modifying the behaviour of the object when testing).
 
 13. What is a mock? How do you use it?
-A mock is an object used to test code when a real environment is not available or desired. Mocks might be specifically designed to test certain aspect of a given code or provided with the minimal structure for testing.
-**ASK which kind of mock**
+A mock is an object used to test code when a real environment is not available or desired. Mocks might be specifically designed to test certain aspect of a given code or provided with the minimal structure for testing. Also, mock may refer to drafts of GUI structures to guide the designers on upcoming developments.
 
 14. Python or PHP?
 This is a tricky question. Short answer Python, long answer: depends on the scenario. PHP is very well documented language and there are many widely used framework in the market. In my experience Python is easier to develop and more flexible. PHP has been widely used as web development language while Python is used in more scenarions, including web development (see Django for instance). Also Python has more readability and it is easier to test.
