@@ -1,8 +1,8 @@
-Work to be done on the code:
+This document includes some ideas and lines of work to improve the test. I prefered to deliver a finished code than leaving it unfinished but addressing more features.
 
-- Check and drop duplicates
-- Avoid downloading images more than once
-- Set unique keys
-- Be more efficient in general
-- Research Image transformation to store in Mongo
-- 
+* Duplicates: The crawler retrieves the recipes in one pass but it should only be run once, since it doesn't make any duplicate control.
+* Image storing: I researched how to store images in MongoDB properly but I didn't found a neat solution in the given time.
+* Multiple images: I assumed that every recipe had only an image in the recipe, but there at least two recipes without image and several - around 35 with more than 1 image.
+* No specific performance test or development has been made. There are several areas were efficiency can be improved, for instance the code
+* Cleaning html: Some paragraphs are scraped as list, to preserve the style of the text, but due to children tags - anchors for example - some paragraphs are not properly sliced.
+

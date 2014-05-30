@@ -12,3 +12,9 @@ http://www.w3schools.com/xpath/
 
 Python 2.7 Regex Howto
 https://docs.python.org/2/howto/regex.html
+
+
+Articles
+http://mherman.org/blog/2012/11/05/scraping-web-pages-with-scrapy/#.U4fUfHV53UZ
+http://newcoder.io/scrape/part-2/
+http://alexk2009.hubpages.com/hub/Storing-large-objects-in-MongoDB-using-Python

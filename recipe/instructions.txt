@@ -1,0 +1,5 @@
+1) Before launching the application check configuration values in recipe/settings.py.
+2) Launch database with run_mongo.sh
+3) Launch crawling with run_crawling.sh
+
+Answers to the questionaire and information about the process is in the folder docs/.

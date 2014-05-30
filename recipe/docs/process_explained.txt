@@ -1,3 +1,25 @@
-1) Install Scrapy and do tutorial
-2) Install pyMongo
-3) Start git repository
+1) Install Scrapy and do tutorial.
+2) Install pyMongo.
+3) Start git repository.
+4) Make a first crawl of a page where links could be found (Sitemap).
+5) Make a fist crawl of a recipe page.
+6) Store the given recipe on the database
+7) Make a massive scrawl including
+8) Include images on the scraping (* using the standlone scrape in 5)
+9) Resolve pending bugs and issues.
+10) Gather and rewrite documentation to a final format
+11) Upload result to public Git repository
+
+Crawling Strategy:
+Under the folder "recetas" there is only recipes and a paginated index of recipes. We will not scrap the index since the information is duplicated in each recipe page. Also, recipes are listed on "Mapa del sitio", so it will be easier to retrieve all recipes under "Recetas", ignoring everything else.
+
+Taking a look to the "Mapa del Sitio" code I've realized that all recipes are under a <ul> with class "level_1" and divided on several <ul> with class "level2". I'll use this information to filter the pages I'm interested on with XPath.
+
+Incremental Development:
+As I am new to Scrapy I decided to make an incremental development checking out my progress every step.
+- First, I tried to crawl a single page. 
+- Second, I extracted the links of a page without scrapping anything else.
+- Third, I scraped a single recipe with all the field.
+- Fourth, I used the model in (3) to make a scrap of every recipe. Scraped data is first analized via logging and then stored in the database.
+- Test were developed through the development, using ipython and standalone scripts. A more methodological approach would be using the test cappabilities of Scrapy or 'setup.py' but due to the size of this "project" I prefered to simply provide some examples that I could run on the shell directly. Obviously, as the project would grow, this aproach would be innefficient.
+
