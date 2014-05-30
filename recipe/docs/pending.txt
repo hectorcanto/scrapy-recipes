@@ -1,8 +1,21 @@
 This document includes some ideas and lines of work to improve the test. I prefered to deliver a finished code than leaving it unfinished but addressing more features.
 
-* Duplicates: The crawler retrieves the recipes in one pass but it should only be run once, since it doesn't make any duplicate control.
-* Image storing: I researched how to store images in MongoDB properly but I didn't found a neat solution in the given time.
-* Multiple images: I assumed that every recipe had only an image in the recipe, but there at least two recipes without image and several - around 35 with more than 1 image.
-* No specific performance test or development has been made. There are several areas were efficiency can be improved, for instance the code
-* Cleaning html: Some paragraphs are scraped as list, to preserve the style of the text, but due to children tags - anchors for example - some paragraphs are not properly sliced.
+The main items I left undone are:
 
+* Duplicates: The crawler retrieves the recipes in one pass but it should only be run once, since it doesn't make any duplicate control.
+
+* Image storing: I researched how to store images in MongoDB properly but I didn't found a neat solution in the given time. Anyway, all images are small enough to save them with gridfs.
+
+* Multiple images: I assumed that every recipe had only an image in the recipe, but there at least two recipes without image and several - around 35 with more than 1 image.
+
+* No specific performance test or development has been made.
+
+* Cleaning html: Some paragraphs are scraped as lists, to preserve the style of the text, but due to children tags - anchors for example - some lines are not scraped properly.
+
+* Missing texts: Only Description, Ingredients and Elaboration text are retrieved every time. Additional information is not scrapped.
+
+* PIL: For image handling PIL was used, as it comes in the Python distribution. It would be better to use Pillow instead.
+
+* Test for RetriveItem interface: Test for the Database interface are not provided, however, there is an example of how to use it as explained on instructions.
+
+* Test for Scrapy: Unit test for Scrapy are not provided. I decided to focus on other aspects since I was satisfied with the single page scrap Spider as a manual test. 

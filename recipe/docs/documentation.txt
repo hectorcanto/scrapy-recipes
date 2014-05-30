@@ -13,6 +13,8 @@ http://www.w3schools.com/xpath/
 Python 2.7 Regex Howto
 https://docs.python.org/2/howto/regex.html
 
+Python Unit testing framework
+https://docs.python.org/2/library/unittest.html
 
 Articles
 http://mherman.org/blog/2012/11/05/scraping-web-pages-with-scrapy/#.U4fUfHV53UZ
