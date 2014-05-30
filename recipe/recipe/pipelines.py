@@ -64,7 +64,6 @@ class MongoPipeline(object):
         text_fields: title, description, elaboration, ingredients and tips
         """
 
-        # PENDING transform image into binary
         # PENDING store more than one image
 
         mapped = dict(item)
@@ -75,9 +74,10 @@ class MongoPipeline(object):
         mapped['number'] = int(item['link'].split("/")[5].split("-")[0]) # For an easire manual retrieval
 
         # Single image storing
-        image_path = path.join(IMAGES_STORE, item['images'][0]['path']) 
-        image_data = open(image_path, 'r')
-        mapped['image'] = self.fs.put(image_data) # Launch actual image
+        if len(item['images']):
+            image_path = path.join(IMAGES_STORE, item['images'][0]['path']) 
+            image_data = open(image_path, 'r')
+            mapped['image'] = self.fs.put(image_data) # stores image ID in filesystem
 
         identifier = self.collection.insert(mapped, continue_on_error=True)
         log.msg("Element inserted with ID {0}".format(identifier))

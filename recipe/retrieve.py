@@ -23,7 +23,7 @@ class ItemRetriever(object):
         """
         Links must be in string format starting with with http://www 
         """
-        cursor = self.collection.find( { u'_id': link) } )
+        cursor = self.collection.find( { u'_id': link } )
         item =self.ReturnItem(cursor)
         return item
         
@@ -32,8 +32,11 @@ class ItemRetriever(object):
             return None
         return list(cursor)[0]
 
-    def ShowIMageByNumber(self, number):
+    def ShowImageByNumber(self, number):
         item  = self.ReturnItemByNumber(number)
         image_data = self.fs.get(item['image'])
-        image = Image.open(image_data)
-        image.show()
+        if image_data:
+            image = Image.open(image_data)
+            image.show()
+        else:
+            print "Sorry, no image avaliable"
