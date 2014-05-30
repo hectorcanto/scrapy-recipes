@@ -20,34 +20,35 @@ class BaseSpider(Spider):
         item['category'] = sel.xpath('//span[@class="article-section"]/a/text()').extract()
         item["link"] = response.url
         item["date"] = sel.xpath('//span[@class="createdate"]/text()').extract()
-        images = sel.xpath('//div[@class="article-content"]//img/@src').extract() # // before image to extract link in and outside <p>
+        images = sel.xpath('//div[@class="article-content"]//img/@src').extract() # // before image to extract links in and outside <p>
         item["image_urls"] = []
-        log.msg("Extracted image links {0}".format(images)) # Eliminate or mark as debug
+
+        log.msg("Extracted image links {0}".format(images), level=log.DEBUG)
         for path in images:
             if "stories" in path:
                 if "http" in path:
                     item["image_urls"].append(path)
                 else:
                     item["image_urls"].append("http://"+self.allowed_domains[0]+path) # PENDING Transform properly
-                    log.msg("Number of paths:{1} -- Resulting path {0}".format( item["image_urls"], len(item["image_urls"])))
+        log.msg("Number of paths:{1} -- Resulting path {0}".format( item["image_urls"], len(item["image_urls"])))
                 
-        #log.msg('Image link extracted from "{0}" as {1}'.format(str(item["title"][0].strip()), item["image_urls"]))
-        
-        # In test (and maybe code) check if links ends up with jpg or equivalent
         item["description"] = sel.xpath('//div[@class="article-content"]/p[1]/text()').extract()
         item["ingredients"] = sel.xpath('//div[@class="article-content"]/ul/li//text()').extract() # Unordered
         item["elaboration"] = sel.xpath('//div[@class="article-content"]/ol/li/text()').extract() # Ordered
-        item['tips'] = ''.join(sel.xpath('//div[@class="article-content"]/p[strong/text()="Consejos:"]/following-sibling::p[1]//text()').extract()).strip()
-        # PENDING IMPORTANT additional texts after Consejos
+        item['tips'] = ''.join(sel.xpath('//div[@class="article-content"]/p[strong/text()="Consejos:"]/following-sibling::p[1]//text()').extract()).strip() # ISSUE some tips are not retrieved properly
+        # PENDING IMPORTANT additional texts after "Consejos"
         # PENDING Facebook commentaries, votes
         return item   
 
-class PageSpider(BaseSpider): # PENDING transform into a Unit test and a one-page crawler script
+class PageSpider(BaseSpider): 
     """
     Class specially designed for testing by crawling a single page. It could be used as a single page crawler.
     """
+
     name = "one"
     start_urls = ["http://www.1080recetas.com/recetas/entrantes/1362-receta-gratis-cocina-pan-cebolla-pipas-santa-rita-harinas"]
+
+    # PENDING transform into a Unit test and a one-page crawler script
 
     def parse(self, response):
         sel = Selector(response)
@@ -59,9 +60,10 @@ class RecipesSpider(BaseSpider):
     Spider to crawl over all the recipes in 1080recetas.com.
     """
 
-    # PENDING stablish rules to filter links
     name = "recipes"
     start_urls = ["http://www.1080recetas.com/mapa-del-sitio"]
+
+    # PENDING stablish rules to filter links
 
     def parse(self, response):
         sel = Selector(response)
@@ -74,5 +76,5 @@ class RecipesSpider(BaseSpider):
                 yield Request(url, callback=self.parse_recipe)
 
     def parse_recipe(self, response):
-        item = self.parse_item(response) # use base class method
+        item = self.parse_item(response) # uses base class method
         return item
