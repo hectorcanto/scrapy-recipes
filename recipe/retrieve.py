@@ -40,3 +40,6 @@ class ItemRetriever(object):
             image.show()
         else:
             print "Sorry, no image avaliable"
+
+    def ClearDB(self):
+        self.collection.drop()
