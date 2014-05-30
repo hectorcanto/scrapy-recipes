@@ -5,10 +5,12 @@ from scrapy import log
 from scrapy.http import Request
 from scrapy.spider import Spider
 from scrapy.selector import Selector
-from scrapy.contrib.spiders import  CrawlSpider
 from recipe.items import RecipeItem, PageItem
 
 class BaseSpider(Spider):
+    """ 
+    Base class for standalone and complete crawling.
+    """
     allowed_domains = ["www.1080recetas.com"]
 
     def parse_item(self, response):
@@ -40,7 +42,10 @@ class BaseSpider(Spider):
         # PENDING Facebook commentaries, votes
         return item   
 
-class PageSpider(BaseSpider): # PENDING transform into a Unit test
+class PageSpider(BaseSpider): # PENDING transform into a Unit test and a one-page crawler script
+    """
+    Class specially designed for testing by crawling a single page. It could be used as a single page crawler.
+    """
     name = "one"
     start_urls = ["http://www.1080recetas.com/recetas/entrantes/1362-receta-gratis-cocina-pan-cebolla-pipas-santa-rita-harinas"]
 
@@ -49,19 +54,25 @@ class PageSpider(BaseSpider): # PENDING transform into a Unit test
         item = self.parse_item(response)
         return item 
 
-class RecipesSpider(BaseSpider): # PENDING transform into a Unit test
+class RecipesSpider(BaseSpider):
+    """
+    Spider to crawl over all the recipes in 1080recetas.com.
+    """
+
+    # PENDING stablish rules to filter links
     name = "recipes"
     start_urls = ["http://www.1080recetas.com/mapa-del-sitio"]
 
     def parse(self, response):
         sel = Selector(response)
-        pages = sel.xpath('//ul/li/a/@href').extract()         # FILTER <ul class="level_2"> <li><a href=regex9recetas/.+)>
-        for url in pages: # PENDING check filter listing pages like entrantes, ensaladas ...
-            if re.match("/recetas/.+/.+", url ) is not None: # parses only recipe pages, not listings pages
-                yield Request('http://'+self.allowed_domains[0]+url, callback=self.parse_recipe)
+        pages = sel.xpath('//ul/li/a/@href').extract()  
+        for url in pages: 
+            if re.match("/recetas/.+/.+", url ) is not None: # Parses only recipe pages, not listings pages
+                yield Request('http://'+self.allowed_domains[0]+url, callback=self.parse_recipe) # Ensures absolute link
+
             elif re.match("http://www.1080recetas.com/recetas/.+/.+", url ):
                 yield Request(url, callback=self.parse_recipe)
 
     def parse_recipe(self, response):
-        item = self.parse_item(response)
+        item = self.parse_item(response) # use base class method
         return item
