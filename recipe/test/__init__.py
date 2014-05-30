@@ -1,2 +1,3 @@
 import sys
-sys.path.append("..")
+from os import path
+sys.path.append(path.join(path.dirname(__file__), "..")) 

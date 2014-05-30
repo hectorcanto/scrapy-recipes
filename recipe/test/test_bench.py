@@ -49,7 +49,7 @@ class TestFunctions(TestCase):
         self.assertTrue(self.collection.count())
         
     def test_db_add_image_fs(self):
-        image_path = "data/sample.jpg"
+        image_path =path.join(path.dirname(__file__), "data/sample.jpg")
         image = open(image_path, 'r')
         img_id = self.fs.put(image)
         retrieve = self.fs.get(img_id)
