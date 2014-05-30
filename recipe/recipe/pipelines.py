@@ -24,25 +24,10 @@ class RecipePipeline(object):
         return item
 
     def transform_date(self, date):
+
         locale.setlocale(locale.LC_ALL, "es_ES.UTF-8")
         dt = datetime.strptime(date.encode('utf8'), "%A, %d de %B de %Y %H:%M") # string encoding to include names with accents
         return dt
-
-class BinaryPipeline(object):
-
-    def process_item(self, item, spider):
-        """
-        Transform an image into binary form to store it in the database
-        """
-        try:
-            image_path = path.join(IMAGES_STORE, item['images'][0]['path'])
-            jpg = Image.open(image_path)
-            jpg.seek(0)
-            binary = BsonBinario(jpg.tobytes()) 
-            #item["photo"] = binary
-            return item
-        except:
-            return item
 
 class MongoPipeline(object):
     """
@@ -69,9 +54,9 @@ class MongoPipeline(object):
         mapped = dict(item)
         for key in ['images', 'image_urls', 'link']:
             mapped.pop(key)
-        mapped['timestamp'] = datetime.utcnow()    
+        mapped['timestamp'] = datetime.utcnow() # For updating or duplicate control purposes
         mapped['_id'] = item['link']
-        mapped['number'] = int(item['link'].split("/")[5].split("-")[0]) # For an easire manual retrieval
+        mapped['number'] = int(item['link'].split("/")[5].split("-")[0]) # For an easier manual retrieval
 
         # Single image storing
         if len(item['images']):

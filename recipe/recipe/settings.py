@@ -17,8 +17,5 @@ ITEM_PIPELINES = {
     'recipe.pipelines.MongoPipeline': 300,    
 }
 
-IMAGES_STORE = '/home/data/Code/myTaste/images' # Change to test
+IMAGES_STORE = '/tmp/' # WARNINGIit must be changed if space is not sufficient
 LOG_LEVEL = "INFO"
-
-# Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'recipe (+http://www.yourdomain.com)'
